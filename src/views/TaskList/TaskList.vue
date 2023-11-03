@@ -1,32 +1,34 @@
 <template>
   <div class="flex justify-between">
     <button class="btn btn-dark mb-2" @click="showModal">New Task</button>
-    <span class=" text-xl">Undone tasks : {{ undoneTasksCount }}</span>
+    <span class="text-xl">Undone tasks : {{ undoneTasksCount }}</span>
   </div>
-  <table class="table table-responsive table-light ">
-    <thead class="fix">
-      <tr >
-        <th scope="col">Title</th>
-        <th scope="col">Description</th>
-        <th scope="col"><i class="bi bi-check-circle"></i>Status</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr
-        v-for="task in tasksRef"
-        data-bs-toggle="#modal"
-        :key="task.id"
-        @click="showModalEdit(task)"
-      >
-        <td>{{ task.title }}</td>
-        <td>{{ task.description }}</td>
-        <td>
-          <span v-if="task.status">Done</span>
-          <span v-else>Undone</span>
-        </td>
-      </tr>
-    </tbody>
-  </table>
+  <div class="table-container">
+    <table class="table table-responsive table-light">
+      <thead class="fix">
+        <tr>
+          <th scope="col">Title</th>
+          <th scope="col">Description</th>
+          <th scope="col"><i class="bi bi-check-circle"></i>Status</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr
+          v-for="task in tasksRef"
+          data-bs-toggle="#modal"
+          :key="task.id"
+          @click="showModalEdit(task)"
+        >
+          <td>{{ task.title }}</td>
+          <td>{{ task.description }}</td>
+          <td>
+            <span v-if="task.status">Done</span>
+            <span v-else>Undone</span>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
   <Modal title="Add new task" ref="modalRef">
     <template #body>
       <TaskForm @onAddTask="addTask" />
@@ -113,3 +115,16 @@ watch(
   { deep: true }
 );
 </script>
+
+<style lang="css" scoped>
+.table-container {
+  @apply h-[300px] overflow-y-auto;
+}
+.table {
+  @apply w-full;
+}
+
+.table thead th {
+  @apply sticky top-0 bg-[#f5f5f5] z-10;
+}
+</style>
